@@ -1,0 +1,8 @@
+{
+   "gitlens.codeLens.scopes": [
+      "document",
+      "containers",
+      "blocks"
+   ],
+   "gitlens.statusBar.format": "${author}, ${agoOrDate}${' via 'pullRequest}"
+}
