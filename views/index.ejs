@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Paystack | Server View</title>
+</head>
+<body>
+   <h1>Payment Test</h1>
+   <form action="/paystack/pay" method="post">
+      <label for="full_name">Full Name</label>
+      <input type="text" name="full_name" id="full_name" placeholder="full_name">
+      <br>
+      <label for="email">email</label>
+      <input type="email" name="email" id="email" placeholder="email">
+      <br>
+      <select name="amount" id="amount">
+         <option value="10000">10000</option>
+         <option value="100000">100000</option>
+         <option value="1000000">1000000</option>
+      </select>
+<button type="submit">Submit</button>
+   </form>
+</body>
+</html>
