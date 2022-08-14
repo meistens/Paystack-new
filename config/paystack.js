@@ -2,12 +2,12 @@
 // remove all unused declarations during clean-up
 
 const { default: axios } = require("axios");
-const FormData = require('form-data');
-let data = new FormData();
-
+let FormData = require('form-data');
+let data = new FormData(); //this is an object, passing a form object does not work backend
+// append the data, will it work?
 
 const paystack = (axios) => {
-   const secret = 'Bearer sk_test_';
+   const secret = 'Bearer sk_test_ddfd03c492c8c283ec550f1925304d789a517e0a';
 
    const initializePayment = () => {
       let config = {
