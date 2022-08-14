@@ -1,16 +1,13 @@
 // need to figure out a way to use dotenv and store the keys properly
 // remove all unused declarations during clean-up
 
-// const { default: axios } = require("axios");
+const { default: axios } = require("axios");
+const FormData = require('form-data');
+let data = new FormData();
 
-
-// how not to hardcode this but use it when a user inputs his/her data?
-let data = JSON.stringify({
-// use of formdata or not?
-})
 
 const paystack = (axios) => {
-   const secret = 'Bearer sk_';
+   const secret = 'Bearer sk_test_';
 
    const initializePayment = () => {
       let config = {
@@ -20,10 +17,11 @@ const paystack = (axios) => {
             authorization: secret,
             'content-type': 'application/json',
             'cache-control': 'no-cache'
-         }, data
-      }
+         },
+         data: data
+      };
       axios(config).then((response) => {
-         console.log(response.data);
+         console.log(JSON.stringify(response.data));
       }).catch((error) => {
          console.log(error);
       });
@@ -33,7 +31,7 @@ const paystack = (axios) => {
    const verifyPayment = () => {
       const config = {
          method: 'get',
-         url: 'https://api.paystack.co/transaction/verify/'+encodeURIComponent(ref),
+         url: 'https://api.paystack.co/transaction/verify/' + encodeURIComponent(ref),
          headers: {
             authorization: secret,
             'content-type': 'application/json',

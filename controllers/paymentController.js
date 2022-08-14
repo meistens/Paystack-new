@@ -27,7 +27,7 @@ exports.postForm = (req, res) => {
       // assigning this to a variable to fix typeerror error
       authorization = response.data.authorizaton_url;
 
-      res.status(302).redirect(authorization)
+      res.status(200).redirect(authorization)
    });
 }
 exports.callback = (req, res) => {
@@ -57,3 +57,19 @@ exports.callback = (req, res) => {
    });
 };
 
+exports.receipt = (req, res) => {
+   const id = req.params.id;
+   Pay.findById(id).then((pay) => {
+      if(!pay) {
+         res.status(400).redirect('/error')
+      }
+      res.render('success', { pay });
+   }).catch((err) => {
+      console.log(err);
+      res.status.redirect('/error')
+   })
+}
+
+exports.error = (req, res) => {
+   res.render('error')
+}
