@@ -1,7 +1,7 @@
 const express = require('express');
+const ejs = require('ejs');
 const bodyParser = require('body-parser');
 const path = require('path');
-const ejs = require('ejs');
 const PORT = process.env.PORT || 8888;
 const payRoutes = require('./routes/paymentRoutes');
 const app = express();

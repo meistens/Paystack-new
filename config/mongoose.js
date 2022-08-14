@@ -9,3 +9,6 @@ mongoose.connect('mongodb://localhost:27017/prototype1DB', {
    .catch(err => console.log(err));
 
    module.exports = mongoose;
+
+
+   // put it in an env file
