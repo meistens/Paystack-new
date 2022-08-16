@@ -7,7 +7,7 @@ const { default: axios } = require("axios");
 const _ = require('lodash');
 
 // verify payment endpoint start
-const secret = 'Bearer sk_test_ddfd03c492c8c283ec550f1925304d789a517e0a';
+const secret = 'Bearer sk_test';
 let FormData = require('form-data');
 let data = new FormData();
 
@@ -16,38 +16,29 @@ exports.getForm = (req, res) => {
 };
 
 
-exports.postForm = (req, res) => {
+exports.postForm = async (req, res) => {
 
-   // rewrite session #2
-   let data = {
-      "email": req.body.email,
-      "amount": req.body.amount
-   };
-
-   const form = _.pick(req.body, ['full_name', 'email', 'amount']);
-
-   form.metadata = {
-      full_name: form.full_name
-   }
-   form.amount *= 100;
-
-   let config = {
+   await axios({
       method: 'post',
       url: 'https://api.paystack.co/transaction/initialize',
       headers: {
-         authorization: secret,
-         'content-type': 'application/json',
+         'Authorization': secret,
+         'Content-Type': 'application/json',
          'cache-control': 'no-cache'
       },
-      data: data
-   };
-   axios(config).then((response) => {
+      data: {
+         "email": req.body.email,
+         "amount": req.body.amount
+      }
+   })
+   .then((response) => {
       res.status(302).redirect(response.data.authorizaton_url)
       console.log(response.data)
-   }).catch((error) => {
-      console.log(error);
    })
-}
+   .catch((error) => {
+      console.log(error);
+   });
+};
 // successful? it renders a page alright but server response slow making the get request... vpn maybe?
 
 // issue is in the controller above? renders html page but redirecting to the authorization url is an issue...
