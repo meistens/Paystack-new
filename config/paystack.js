@@ -1,50 +1,62 @@
-// need to figure out a way to use dotenv and store the keys properly
-// remove all unused declarations during clean-up
+// rewrite psystack module with axios server side
+require('dotenv').config();
+const axios = require('axios');
+const formData = require('form-data');
+let formsData = new formData();
+let secret = process.env.secret
 
-const { default: axios } = require("axios");
-let FormData = require('form-data');
-let data = new FormData(); //this is an object, passing a form object does not work backend
-// append the data, will it work?
 
-const paystack = (axios) => {
-   const secret = 'Bearer sk_test_ddfd03c492c8c283ec550f1925304d789a517e0a';
+let data = JSON.stringify({
+   "email": "testuser@mail.com",
+   "amount": "1000000",
+   // add more parameters to test it
+   "channels": ["card", "bank"]
+});
+// console.log(data);
 
-   const initializePayment = () => {
-      let config = {
+async function initializeTx() {
+   try {
+      let response = await axios({
          method: 'post',
          url: 'https://api.paystack.co/transaction/initialize',
          headers: {
-            authorization: secret,
-            'content-type': 'application/json',
+            'Authorization': secret,
+            'Content-Type': 'application/json',
             'cache-control': 'no-cache'
          },
          data: data
-      };
-      axios(config).then((response) => {
-         console.log(JSON.stringify(response.data));
-      }).catch((error) => {
-         console.log(error);
       });
-   };
-
-   // verify payment function
-   const verifyPayment = () => {
-      const config = {
-         method: 'get',
-         url: 'https://api.paystack.co/transaction/verify/' + encodeURIComponent(ref),
-         headers: {
-            authorization: secret,
-            'content-type': 'application/json',
-            'cache-control': 'no-cache'
-         }
-      }
-      axios(config).then((response) => {
-         console.log(response.data);
-      }).catch((err) => {
-         console.log(err);
-      });
+      return response.data
+   } catch (err) {
+      console.log(err)
    }
-   return { initializePayment, verifyPayment };
-};
+}
 
-module.exports = paystack;
+// verify transaction
+async function verifyTx(reference) {
+   try {
+      let response = await axios({
+         method: 'get',
+         url: `https://api.paystack.co/transaction/verify/${reference}`,
+         headers: {
+            'Authorization': secret,
+            ...formsData.getHeaders(),
+            'cache-control': 'no-cache'
+         },
+         formsData: formsData
+      });
+      // console.log(response.data)
+      return response.data
+   } catch (err) {
+      console.log(err);
+   }
+}
+
+// reference passed as a parameter is a query string but also helps to chain the reference to the data gotten from initializing the  transaction
+
+// for RESTful use with express, pass the data/form in initializeTx() as the parameter instead of hardcoding unless by request
+
+
+
+module.exports.initializeTx = initializeTx;
+module.exports.verifyTx = verifyTx;

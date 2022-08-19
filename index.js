@@ -13,8 +13,8 @@ app.use(express.static(path.join(__dirname, 'public/')));
 app.set('view engine', 'ejs');
 
 
-// routes use
-app.use('/', payRoutes);
+// // routes use
+// app.use('/', payRoutes);
 
 app.listen(PORT, () => {
    console.log(`express app works`)

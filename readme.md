@@ -1,15 +1,25 @@
 # Paystack Payment Gateway Documentation
 
+## Changes were made to this code. It is still a work in progress but it definitely is coming together after some extensive reading of several docs (axios and formData)
+
+---
+
 ## Description
 
 Step by step guide on how to integrate paystack on your app.
 
 ### Prerequsites
 
-1. Install Express, Mongoose, ejs, axios
+1. Install Express, Mongoose, ejs, axios, form-data
+
+Note: some of the installed module like form-data for use on the backend alone
 
 ``` javascript
 npm i express
+```
+
+``` javascript
+npm i dotenv
 ```
 
 ``` javascript
@@ -32,13 +42,17 @@ npm i lodash
 npm i body-parser
 ```
 
+``` javascript
+npm i form-data
+```
+
 1. Created a config folder for the mongoose server to the local mongodb database, exported the connection.
 
-1. Created a models folder, with the payments model file for the form to be used as payment (said form will be set up in the views folder).
+2. Created a models folder, with the payments model file for the form to be used as payment (said form will be set up in the views folder).
 2.1 Prior to this, paystack needs only email and amount to initialize the api but other fields are saved on the database, like the reference and others, will add to the schema if there will be any features to add
 p.s: client-side validation with joi will  be addedto the schema for further security
 
-1. Time to build the paystack payment module. The way the module is built is to allow for one to add other payment modules as well, though it feels quite unnecessary as most popular platforms use a well-documented library.
+3. Time to build the paystack payment module. The way the module is built is to allow for one to add other payment modules as well, though it feels quite unnecessary as most popular platforms use a well-documented library.
 
 Axios, which is an http library is used for handling the http request for this api and since request has been deprecated, time for an upgrade
 
@@ -48,18 +62,11 @@ Axios, which is an http library is used for handling the http request for this a
 
 1. Secret key is passed  into the functon, which will be used in later functions
 
-1. Create a function to initialize payment, passing two arguments, the latter being the callback. The headers are written down, with the form object which was added as one of the arguments passed.
-The callback gets 3 arguments:
-i. Error when applicable,
-ii. The response object and
-iii. The response body
-All our call back does is return the callback function (callBack) passed into the initPayment passing in the error and body from the request. callback would be well defined to run after initPayment runs whenever it is called. Axios is called to initialze a POST request, passing the form object and callBack.
-Just a little highlight on its usage. Whenever initPayment() is called, it expects the form object to be passed in as the first argument and a callback function as the second. The callback function should expect two arguments too: error where applicable and body.
+1. Create a function called initializeTx to initialize payment. For now, the data is hardcoded, will update when it is being passed to a server and consumed
 
-1. The verifyPayment function, a reference object that will most likely to be sent
-but other than that, it is no different from the initPayment module.
+1. The verifyTx function will use the same code as with the initialize payment with some changes
 
-1. Head over to your index file and create an express server, making sure to require the necessary packages to use.
+<!-- 1. Head over to your index file and create an express server, making sure to require the necessary packages to use.
 
 1. Split your code into several files and folders using the MVC approach. The routes folder will contain the  routes, which will be exported for use to the index/express application, the most work will be in the controllers folder.
 
@@ -120,4 +127,4 @@ After the donor’s interaction with paystack, the donor is redirected back to o
 app.set('view engine', 'ejs');
 ```
 
-Don't forget to use 'ejs'.
+Don't forget to use 'ejs'. -->

@@ -1,7 +1,10 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 
+let DB = process.env.DB
+
 // mongoose connecton to local database
-mongoose.connect('mongodb://localhost:27017/prototype1DB', {
+mongoose.connect(DB, {
    useNewUrlParser: true,
    useUnifiedTopology: true
 })
@@ -9,6 +12,3 @@ mongoose.connect('mongodb://localhost:27017/prototype1DB', {
    .catch(err => console.log(err));
 
    module.exports = mongoose;
-
-
-   // put it in an env file
