@@ -1,10 +1,36 @@
-# Paystack Payment Gateway Documentation
-
-## Changes were made to this code. It is still a work in progress but it definitely is coming together after some extensive reading of several docs (axios and formData)
+# Paystack Payment Gateway with Axios
 
 ---
 
-## Description
+## Changes were made to this code. ~~It is still a work in progress but it definitely is coming together after some extensive reading of several docs (axios and formData)~~
+
+## Completed
+
+Unit tests and documenting soon. In the meantime, should you fork the repository, run this code below on your terminal
+
+```javascript
+node testfile.js
+```
+
+You should see some results as described [on Paystack](https://paystack.com/docs/api/)
+
+Ignore the express setup, it is there in the event I or anyone on the team decides to consume the API.
+
+### Added
+
+- Initialize transaction
+
+- Verify transaction
+
+- Fetch all transactions via the endpoint
+
+- Fetch a single transaction from the API endpoint
+
+### Troubleshooting
+
+- Connection timeout (reset your router or switch off and on your internet connection)
+
+<!-- ## Description
 
 Step by step guide on how to integrate paystack on your app.
 
