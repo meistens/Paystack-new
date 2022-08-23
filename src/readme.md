@@ -30,6 +30,7 @@ Ignore the express setup, it is there in the event I or anyone on the team decid
 
 - Connection timeout (reset your router or switch off and on your internet connection)
 
+- Typeerror|invalid_header despite your code looking alright (make sure you are in the directory where the file is, run the command on your terminal)
 <!-- ## Description
 
 Step by step guide on how to integrate paystack on your app.
