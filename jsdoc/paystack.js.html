@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: paystack.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: paystack.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// @ts-check
+require('dotenv').config();
+const axios = require('axios');
+const formData = require('form-data');
+let formsData = new formData();
+let secret = process.env.secret
+
+/**
+ * Global declaration of this variable
+ * @type {string}
+ */
+let data = JSON.stringify({
+   "email": "testuser@mail.com",
+   "amount": "1000000",
+   "channels": ["card", "bank"]
+});
+
+/**
+ * initialize a transaction
+ * @async
+ * @function initializeTx
+ * @returns {Promise&lt;object|Error>} Object contains an authorization url. If not, error
+ */
+async function initializeTx() {
+   try {
+      // @ts-ignore
+      let response = await axios({
+         method: 'post',
+         url: 'https://api.paystack.co/transaction/initialize',
+         headers: {
+            'Authorization': secret,
+            'Content-Type': 'application/json',
+            'cache-control': 'no-cache'
+         },
+         data: data
+      });
+      return response.data
+   } catch (err) {
+      console.log(err)
+   }
+}
+
+// verify transaction
+/**
+ * verify transaction
+ * @async
+ * @function verifyTx
+ * @param {string} reference
+ * @returns {Promise&lt;object|Error>} Transaction is successful, requires one to pass a callback url either on your paystack dashboard or configured server-side
+ */
+async function verifyTx(reference) {
+   try {
+      // @ts-ignore
+      let response = await axios({
+         method: 'get',
+         url: `https://api.paystack.co/transaction/verify/${reference}`,
+         headers: {
+            'Authorization': secret,
+            ...formsData.getHeaders(),
+            'cache-control': 'no-cache'
+         },
+         formsData: formsData
+      });
+      return response.data
+   } catch (err) {
+      console.log(err);
+   }
+}
+
+
+/**
+ * list the transactions carried out
+ * @async
+ * @function listTx
+ * @returns {Promise&lt;object|Error>} returns an object for all transactions. Pagination set by default or specify your range by passing the query parameters
+ */
+async function listTx() {
+   try {
+      // @ts-ignore
+      let response = await axios({
+         method: 'get',
+         url: 'https://api.paystack.co/transaction',
+         params: {
+            perPage: 10,
+            customer: this.customer,
+            status: 'this.status'
+         },
+         // this.customer necessary?
+         headers: {
+            'Authorization': secret,
+            ...formsData.getHeaders(),
+            'cache-control': 'no-cache'
+         },
+         formsData: formsData,
+         timeout: 6000,
+      });
+      return response.data
+   } catch (err) {
+      console.log(err);
+   }
+}
+// fetch a transaction
+/**
+ * 
+ * @param {number} id 
+ * @returns {Promise&lt;object|Error>}
+ */
+async function fetchTx(id) {
+   try {
+      // @ts-ignore
+      let response = await axios({
+         method: 'get',
+         url: `https://api.paystack.co/transaction/${id}`,
+         headers: {
+            'Authorization': secret,
+            ...formsData.getHeaders(),
+            'cache-control': 'no-cache'
+         },
+         formsData: formsData
+      });
+      return response.data
+   } catch (err) {
+      console.log(err);
+   }
+}
+
+
+
+
+// reference passed as a parameter is a query string but also helps to chain the reference to the data gotten from initializing the  transaction
+
+// for RESTful use with express, pass the data/form in initializeTx() as the parameter instead of hardcoding unless by request
+
+// create an instance to prevent connection from randomly timing out at all, i mean i am the only one making the calls
+
+
+
+module.exports.initializeTx = initializeTx;
+module.exports.verifyTx = verifyTx;
+module.exports.listTx = listTx;
+module.exports.fetchTx = fetchTx;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#data">data</a></li><li><a href="global.html#fetchTx">fetchTx</a></li><li><a href="global.html#initializeTx">initializeTx</a></li><li><a href="global.html#listTx">listTx</a></li><li><a href="global.html#verifyTx">verifyTx</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Tue Aug 23 2022 15:02:24 GMT+0100 (West Africa Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
