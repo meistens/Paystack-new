@@ -6,6 +6,12 @@ let formsData = new formData();
 let secret = process.env.secret
 
 /**
+ * @file Title testing 1, 2, 3
+ * @author Mebo David
+ * @see <a href="https://github.com/meistens">Click this text to visit my GitHub profile</a>
+ */
+
+/**
  * Global declaration of this variable
  * 
  * @type {string}
@@ -22,7 +28,7 @@ let data = JSON.stringify({
  * 
  * @function initializeTx
  * 
- * @returns {Promise<object|Error>} Object contains an authorization url. If error, debug your code|check with the team whose API you are consuming
+ * @returns {Promise<object>} Returns an object that contains an authorization url and reference, which are important
  */
 async function initializeTx() {
    try {
@@ -49,9 +55,9 @@ async function initializeTx() {
  * 
  * @function verifyTx
  * 
- * @param {string} reference For use in the server, query the server to get the reference immediately a transaction is initialized
+ * @param {string} reference String of data gotten from the object while initializing the transaction. Query your server to get the reference.
  * 
- * @returns {Promise<object|Error>} Transaction is successful, requires one to pass a callback url either on your paystack dashboard or configured server-side. If error, debug your code|check with the team whose API you are consuming
+ * @returns {Promise<object>} Returns a large object with the status of the transaction at the top. 
  */
 async function verifyTx(reference) {
    try {
@@ -74,12 +80,12 @@ async function verifyTx(reference) {
 
 
 /**
- * list the transactions carried out
+ * list the transactions carried out on your account
  * @async
  * 
  * @function listTx
  * 
- * @returns {Promise<object|Error>} Returns an object with a large payload. Pagination set by default or specify your range by passing it as a query parameter. If no payload, throws an error and debug|check with the team whose API you are consuming
+ * @returns {Promise<object>} Returns an object with a large payload.
  */
 async function listTx() {
    try {
@@ -89,11 +95,7 @@ async function listTx() {
          url: 'https://api.paystack.co/transaction',
          params: {
             perPage: 10,
-            customer: this.customer,
-            status: 'this.status'
          },
-         // this.customer and status necessary?
-         // best not to pass it to the url string
          headers: {
             'Authorization': secret,
             ...formsData.getHeaders(),
@@ -115,7 +117,7 @@ async function listTx() {
  * 
  * @param {number} id Send a query to fetch the id, which is passed as a callback parameter
  * 
- * @returns {Promise<object|Error>} Returns with the data object of that particular id. If error, debug your code|check with the team whose API you are consuming
+ * @returns {Promise<object>} Returns with the data object of the id one wants
  */
 async function fetchTx(id) {
    try {
