@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-   res.json({message: "Welcome"})
+router.get('/pay', (req, res) => {
+   //res.set('Accept', 'application/json')
+   const message = 'sup'
+   res.json({message})
 });
 
-router.post('/')
+// router.post('/')
 
 module.exports = router;

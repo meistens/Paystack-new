@@ -2,12 +2,12 @@
   "name": "paystack-new",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "jsdoc": "jsdoc -c jsdoc.json",
-    "dev": "nodemon src/server.js",
-    "start": "node src/server.js",
-    "jest": "jest --watchAll"
+    "dev": "nodemon src/config/express.js",
+    "start": "node src/config/express.js",
+    "jest": "jest --watchAll --detectOpenHandles"
   },
   "repository": {
     "type": "git",

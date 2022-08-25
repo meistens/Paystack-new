@@ -8,10 +8,6 @@ app.use(bodyParser.urlencoded({
    extended: false
 }
 ));
-app.use('/pay', routes);
-
-app.listen(process.env.PORT || 5000, () => {
-   console.log('works')
-});
+app.use('/', routes);
 
 module.exports = app;
