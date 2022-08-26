@@ -1,4 +1,4 @@
-// @ts-check
+
 require('dotenv').config();
 const axios = require('axios');
 const formData = require('form-data');
@@ -14,13 +14,13 @@ let secret = process.env.secret
 /**
  * Global declaration of this variable
  * 
- * @type {string}
+ * @type {}
  */
-let data = JSON.stringify({
+let data = {
    "email": "testuser@mail.com",
    "amount": "1000000",
    "channels": ["card", "bank"]
-});
+};
 
 /**
  * Initialize a transaction

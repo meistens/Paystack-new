@@ -3,28 +3,9 @@ const app = require('../server');
 
 describe('Payment API', () => {
    it('GET / --> Welcome Object', () => {
-      return request(app)
-         .get('/')
-         .set('Accept', 'application/json')
-         .expect('Content-Type', /json/)
-         .expect(200)
-         .then((response) => {
-            expect(response.body).toEqual({})
-            
-         })
-         .catch((err) => {
-            err
-         })
    });
 
    it('POST /init --> Object with authorization url and reference', () => {
-      request(app)
-         .get('/')
-         .expect('Content-Type', /json/)
-         .expect(200)
-         .then((response) => {
-            expect(response.body).toEqual({})
-         })
    });
 
    it('GET /verify/reference --> Object for a successful transaction ', () => {
