@@ -1,9 +1,8 @@
-
+const axios = require('axios').default;
+//const formData = require('form-data');
+//let formsData = new formData();
 require('dotenv').config();
-const axios = require('axios');
-const formData = require('form-data');
-let formsData = new formData();
-let secret = process.env.secret
+const secret = process.env.KEY
 
 /**
  * @file Title testing 1, 2, 3
@@ -16,11 +15,11 @@ let secret = process.env.secret
  * 
  * @type {}
  */
-let data = {
-   "email": "testuser@mail.com",
-   "amount": "1000000",
-   "channels": ["card", "bank"]
-};
+//let data = {
+   //"email": "testuser@mail.com",
+   //"amount": "1000000",
+   // "channels": ["card", "bank"]
+//};
 
 /**
  * Initialize a transaction
@@ -30,11 +29,11 @@ let data = {
  * 
  * @returns {Promise<object>} Returns an object that contains an authorization url and reference, which are important
  */
-async function initializeTx() {
+async function initializeTx(data) {
    try {
       // @ts-ignore
       let response = await axios({
-         method: 'post',
+         method: 'POST',
          url: 'https://api.paystack.co/transaction/initialize',
          headers: {
             'Authorization': secret,
@@ -70,7 +69,7 @@ async function verifyTx(reference) {
             ...formsData.getHeaders(),
             'cache-control': 'no-cache'
          },
-         formsData: formsData
+         //formsData: formsData
       });
       return response.data
    } catch (err) {

@@ -1,23 +1,43 @@
 const request = require('supertest');
 const app = require('../server');
 
-describe('Payment API', () => {
-   it('GET / --> Welcome Object', () => {
+describe('GET /pay', () => {
+   it('returns an object', () => {
+      request(app)
+         .get('/pay')
+         .set('Accept', 'application/json')
+         .expect('Content-Type', /json/)
+         .expect(200)
+         .then((response) => {
+            expect(response.body).toEqual({})
+         })
+         .catch((err) => {
+            err
+         })
    });
+})
 
-   it('POST /init --> Object with authorization url and reference', () => {
+
+describe('POST /pay', () => {
+   it('initializes a transaction', (done) => {
+      request(app)
+         .post('/pay')
+         .send({
+            "email": "test@test.com",
+            "amount": 10000
+         })
+         .set('Accept', 'application/json')
+         .expect('Content-Type', /json/)
+         .expect(200)
+         .end((err, res) => {
+            if (err) return done(err)
+            return done()
+         })
    });
+})
 
-   it('GET /verify/reference --> Object for a successful transaction ', () => {
+describe('GET /callback', () => {
+   it('verifies a transaction', () => {
 
-   });
-
-   it('GET /list --> Object for all transactions carried out', () => {
-
-   });
-
-   it('GET /list/:id --> Welcome Object', () => {
-
-   });
-
+})
 })
