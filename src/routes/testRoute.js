@@ -15,10 +15,13 @@ router.post('/pay', async (req, res) => {
       "channels": ["card", "bank"]
    }
    //console.log(data)
-
-const init = await initializeTx(data)
-res.json(init.data.authorization_url)
-}) 
+   try {
+      const init = await initializeTx(data)
+      res.json(init.data.authorization_url)
+   } catch (err) {
+      res.status(400).json({ msg: err })
+   }
+})
 
 router.get('/callback', (req, res) => {
    const ref = req.params.reference

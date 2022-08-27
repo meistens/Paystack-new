@@ -15,7 +15,20 @@ describe('GET /pay', () => {
             err
          })
    });
-})
+
+   it('returns 404', () => {
+      request(app)
+         .get('/p')
+         .expect(404)
+         .then((response) => {
+            expect(response.status)
+            .toEqual(404)
+         })
+         .catch((err) => {
+            return err
+         })
+   })
+});
 
 
 describe('POST /pay', () => {
@@ -34,10 +47,27 @@ describe('POST /pay', () => {
             return done()
          })
    });
+
+   it('invalidates incomplete data', (done) => {
+      request(app)
+         .post('/pay')
+         .send({
+            "email": "test",
+            "amount": 10000
+         })
+         .set('Accept', 'application/json')
+         .expect('Content-Type', /json/)
+         .expect(400)
+         .end((err, res) => {
+            if (err) return done(err)
+            return done()
+         })
+
+   })
 })
 
 describe('GET /callback', () => {
    it('verifies a transaction', () => {
 
-})
+   })
 })
