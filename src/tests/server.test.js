@@ -1,15 +1,14 @@
 const request = require('supertest');
 const app = require('../server');
 
-describe('GET /pay', () => {
-   it('returns an object', () => {
+describe('GET /', () => {
+   it('returns a form', () => {
       request(app)
-         .get('/pay')
-         .set('Accept', 'application/json')
-         .expect('Content-Type', /json/)
+         .get('/')
+         .expect('Content-Type', /text-html/)
          .expect(200)
          .then((response) => {
-            expect(response.body).toEqual({})
+            expect(response).toEqual()
          })
          .catch((err) => {
             err

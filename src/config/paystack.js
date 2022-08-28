@@ -97,10 +97,11 @@ async function listTx() {
          },
          headers: {
             'Authorization': secret,
-            ...formsData.getHeaders(),
+            //...formsData.getHeaders(),
+            'Content-Type': 'application/json',
             'cache-control': 'no-cache'
          },
-         formsData: formsData,
+         //formsData: formsData,
          timeout: 6000,
       });
       return response.data

@@ -2,10 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { initializeTx, verifyTx, listTx, fetchTx } = require('../config/paystack');
 
-router.get('/pay', (req, res) => {
-   //res.set('Accept', 'application/json')
-   const message = 'sup'
-   res.json({ message })
+router.get('/', (req, res) => {
+   res.render('index')
 });
 
 router.post('/pay', async (req, res) => {
@@ -17,16 +15,27 @@ router.post('/pay', async (req, res) => {
    //console.log(data)
    try {
       const init = await initializeTx(data)
-      res.json(init.data.authorization_url)
+      res.status(302).redirect(init.data.authorization_url)
    } catch (err) {
-      res.status(400).json({ msg: err })
+      res.status(400).json({ err })
    }
 })
 
+// callback url same used in previous prototype, change it
 router.get('/callback', (req, res) => {
    const ref = req.params.reference
-   const verify = verifyTx(ref)
-   res.json(verify)
+   try {
+      const verify = verifyTx(ref)
+   res.json({message: "Payment successful"})
+   } catch (err) {
+      res.status(400).json({ err })
+   }
+})
+
+
+router.get('/list', async (req, res) => {
+   const list = await listTx()
+   res.status(200).json(list)
 })
 
 
