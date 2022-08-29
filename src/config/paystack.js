@@ -127,10 +127,11 @@ async function fetchTx(id) {
          url: `https://api.paystack.co/transaction/${id}`,
          headers: {
             'Authorization': secret,
-            ...formsData.getHeaders(),
+            'Content-Type': 'application/json',
+            //...formsData.getHeaders(),
             'cache-control': 'no-cache'
          },
-         formsData: formsData
+         //formsData: formsData
       });
       return response.data
    } catch (err) {

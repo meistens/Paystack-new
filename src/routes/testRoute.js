@@ -21,12 +21,12 @@ router.post('/pay', async (req, res) => {
    }
 })
 
-// callback url same used in previous prototype, change it
+// json fails to display, check callback url on the dashboard
 router.get('/callback', (req, res) => {
    const ref = req.params.reference
    try {
-      const verify = verifyTx(ref)
-   res.json({message: "Payment successful"})
+      verifyTx(ref)
+      res.json({ message: "Payment successful" })
    } catch (err) {
       res.status(400).json({ err })
    }
@@ -36,6 +36,17 @@ router.get('/callback', (req, res) => {
 router.get('/list', async (req, res) => {
    const list = await listTx()
    res.status(200).json(list)
+})
+
+
+router.get('/list/:id', async (req, res) => {
+   const id = req.params.id
+   try {
+      const fetch = await fetchTx(id)
+      res.json({ fetch })
+   } catch (err) {
+      res.status(404).json({ message: err })
+   }
 })
 
 
