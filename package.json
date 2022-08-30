@@ -33,5 +33,16 @@
     "jest": "^28.1.3",
     "jsdoc": "^3.6.11",
     "supertest": "^6.2.4"
+  },
+  "jest": {
+"collectCoverage": true,
+"coverageThreshold": {
+  "global": {
+    "branches": 90,
+    "functions": 80,
+    "lines": 70
+  }
+},
+"errorOnDeprecated": true
   }
 }
