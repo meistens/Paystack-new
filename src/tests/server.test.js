@@ -1,9 +1,10 @@
 const request = require('supertest');
+const { response } = require('../server');
 const app = require('../server');
 
 describe('GET form', () => {
-   test('returns a form', () => {
-      request(app)
+   test('returns a form', async () => {
+      await request(app)
          .get('/')
          .expect('Content-Type', /json/)
          .then((response) => {
@@ -14,8 +15,8 @@ describe('GET form', () => {
          })
    });
 
-   test('returns 404', () => {
-      request(app)
+   test('returns 404', async () => {
+      await request(app)
          .get('/p')
          .then((response) => {
             expect(response.status)
@@ -29,14 +30,14 @@ describe('GET form', () => {
 
 
 describe('POST /pay', () => {
-   test('initializes a transaction', () => {
-      request(app)
+   test('initializes a transaction', async () => {
+      await request(app)
          .post('/pay')
          .send({
             "email": "test@test.com",
             "amount": 10000
          })
-         .expect('Content-Type', 'text/plain; charset=utf-8')
+         .expect('Content-Type', /json/)
          .then((response) => {
             expect(response.status)
                .toEqual(302)
@@ -44,14 +45,10 @@ describe('POST /pay', () => {
          .catch((err) => {
             return err
          })
-      // .end((err, res) => {
-      //    if (err) return done(err)
-      //    return done()
-      // })
    });
 
-   test('invalidates incomplete data', (done) => {
-      request(app)
+   test('invalidates incomplete data', async () => {
+      await request(app)
          .post('/pay')
          .send({
             "email": "test",
@@ -59,17 +56,29 @@ describe('POST /pay', () => {
          })
          .set('Accept', 'application/json')
          .expect('Content-Type', /json/)
-         .expect(400)
-         .end((err, res) => {
-            if (err) return done(err)
-            return done()
+         .then((response) => {
+            expect(response.status)
+               .toEqual(400)
          })
-
+         .catch((err) => {
+            return err
+         })
    })
 })
 
-describe('GET /callback', () => {
-   test('verifies a transaction', () => {
+// test case resolve issue
+describe('GET /call', () => {
+   test('verifies a transaction', async () => {
+      await request(app)
+         .get('/call')
+         .expect('Content-Type', /json/)
+         .then((response) => {
+            expect(response.status)
+               .toEqual(200)
+         })
+         .catch((err) => {
+            return err
+         })
 
    })
 })
