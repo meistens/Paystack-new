@@ -2,7 +2,7 @@ const request = require('supertest');
 const app = require('../server');
 
 describe('GET form', () => {
-   it('returns a form', () => {
+   test('returns a form', () => {
       request(app)
          .get('/')
          .expect('Content-Type', /json/)
@@ -14,7 +14,7 @@ describe('GET form', () => {
          })
    });
 
-   it('returns 404', () => {
+   test('returns 404', () => {
       request(app)
          .get('/p')
          .then((response) => {
@@ -29,7 +29,7 @@ describe('GET form', () => {
 
 
 describe('POST /pay', () => {
-   it('initializes a transaction', () => {
+   test('initializes a transaction', () => {
       request(app)
          .post('/pay')
          .send({
@@ -50,7 +50,7 @@ describe('POST /pay', () => {
       // })
    });
 
-   it('invalidates incomplete data', (done) => {
+   test('invalidates incomplete data', (done) => {
       request(app)
          .post('/pay')
          .send({
@@ -69,7 +69,7 @@ describe('POST /pay', () => {
 })
 
 describe('GET /callback', () => {
-   it('verifies a transaction', () => {
+   test('verifies a transaction', () => {
 
    })
 })

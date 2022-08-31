@@ -1,6 +1,4 @@
 const axios = require('axios').default;
-//const formData = require('form-data');
-//let formsData = new formData();
 require('dotenv').config();
 const secret = process.env.KEY
 
@@ -13,7 +11,7 @@ const secret = process.env.KEY
 /**
  * Global declaration of this variable
  * 
- * @type {}
+ * @type {*}
  */
 //let data = {
    //"email": "testuser@mail.com",
@@ -31,7 +29,6 @@ const secret = process.env.KEY
  */
 async function initializeTx(data) {
    try {
-      // @ts-ignore
       let response = await axios({
          method: 'POST',
          url: 'https://api.paystack.co/transaction/initialize',
@@ -60,16 +57,14 @@ async function initializeTx(data) {
  */
 async function verifyTx(reference) {
    try {
-      // @ts-ignore
       let response = await axios({
          method: 'get',
          url: `https://api.paystack.co/transaction/verify/${reference}`,
          headers: {
             'Authorization': secret,
-            ...formsData.getHeaders(),
+            'Content-Type': 'application/json',
             'cache-control': 'no-cache'
-         },
-         //formsData: formsData
+         }
       });
       return response.data
    } catch (err) {
@@ -97,11 +92,9 @@ async function listTx() {
          },
          headers: {
             'Authorization': secret,
-            //...formsData.getHeaders(),
             'Content-Type': 'application/json',
             'cache-control': 'no-cache'
          },
-         //formsData: formsData,
          timeout: 6000,
       });
       return response.data
@@ -121,27 +114,20 @@ async function listTx() {
  */
 async function fetchTx(id) {
    try {
-      // @ts-ignore
       let response = await axios({
          method: 'get',
          url: `https://api.paystack.co/transaction/${id}`,
          headers: {
             'Authorization': secret,
             'Content-Type': 'application/json',
-            //...formsData.getHeaders(),
             'cache-control': 'no-cache'
          },
-         //formsData: formsData
       });
       return response.data
    } catch (err) {
       console.log(err);
    }
 }
-
-// create an instance to prevent connection from randomly timing out at all, i mean i am the only one making the calls
-
-
 
 module.exports.initializeTx = initializeTx;
 module.exports.verifyTx = verifyTx;
